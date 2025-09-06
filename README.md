@@ -266,6 +266,22 @@ The following outputs are exported:
 
 Description: n/a
 
+### <a name="output_container_app_environment_certificates"></a> [container\_app\_environment\_certificates](#output\_container\_app\_environment\_certificates)
+
+Description: n/a
+
+### <a name="output_container_app_environment_custom_domains"></a> [container\_app\_environment\_custom\_domains](#output\_container\_app\_environment\_custom\_domains)
+
+Description: n/a
+
+### <a name="output_container_app_environment_dapr_components"></a> [container\_app\_environment\_dapr\_components](#output\_container\_app\_environment\_dapr\_components)
+
+Description: n/a
+
+### <a name="output_container_app_environment_storages"></a> [container\_app\_environment\_storages](#output\_container\_app\_environment\_storages)
+
+Description: n/a
+
 ## Resources
 
 The following resources are used by this module:
