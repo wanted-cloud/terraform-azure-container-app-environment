@@ -84,3 +84,60 @@ variable "workload_profiles" {
   }))
   default = []
 }
+
+variable "certificates" {
+  description = "Certificates for the Azure Container App Environment."
+  type = list(object({
+    name             = string
+    certificate_path = string
+    certificate_pass = string
+  }))
+  default = []
+  
+}
+
+variable "domains" {
+  description = "Custom domains for the Azure Container App Environment."
+  type = list(object({
+    dns_suffix                   = string
+    certificate_blob_base64      = string
+    certificate_password         = string
+  }))
+  default = []
+}
+
+variable "share_storages" {
+  description = "Storage configurations for the Azure Container App Environment."
+  type = list(object({
+    name       = string
+    share_name = string
+    access_mode = optional(string, "ReadWrite")
+    account_name = optional(string, "")
+    access_key   = optional(string, "")
+    nfs_server_url = optional(string, "")
+  }))
+  default = []
+}
+
+variable "dapr_components" {
+  description = "Dapr components for the Azure Container App Environment."
+  type = list(object({
+    name                         = string
+    container_app_environment_id = string
+    component_type               = string
+    version                      = string
+    ignore_errors                = optional(bool, false)
+    init_timeout                 = optional(string, "5s")
+    scopes                       = optional(list(string), [])
+    metadata                    = optional(list(object({
+      name        = string
+      secret_name = optional(string, "")
+      value       = optional(string, "")
+    })), [])
+    secrets = optional(list(object({
+      name       = string
+      value      = string
+    })), [])
+  }))
+  default = []
+}
