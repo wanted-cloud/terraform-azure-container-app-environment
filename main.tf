@@ -28,6 +28,16 @@ resource "azurerm_container_app_environment" "this" {
     }
   }
 
+  dynamic "workload_profile" {
+    for_each = { for profile in var.workload_profiles : profile["name"] => profile }
+    content {
+      name                  = workload_profile.value.name
+      workload_profile_type = workload_profile.value.workload_profile_type
+      minimum_count         = workload_profile.value.min_instances
+      maximum_count         = workload_profile.value.max_instances
+    }
+  }
+
   timeouts {
     create = try(
       local.metadata.resource_timeouts["azurerm_container_app_environment"]["create"],
