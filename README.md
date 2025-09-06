@@ -47,6 +47,67 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
+### <a name="input_certificates"></a> [certificates](#input\_certificates)
+
+Description: Certificates for the Azure Container App Environment.
+
+Type:
+
+```hcl
+list(object({
+    name             = string
+    certificate_path = string
+    certificate_pass = string
+  }))
+```
+
+Default: `[]`
+
+### <a name="input_dapr_components"></a> [dapr\_components](#input\_dapr\_components)
+
+Description: Dapr components for the Azure Container App Environment.
+
+Type:
+
+```hcl
+list(object({
+    name                         = string
+    container_app_environment_id = string
+    component_type               = string
+    version                      = string
+    ignore_errors                = optional(bool, false)
+    init_timeout                 = optional(string, "5s")
+    scopes                       = optional(list(string), [])
+    metadata = optional(list(object({
+      name        = string
+      secret_name = optional(string, "")
+      value       = optional(string, "")
+    })), [])
+    secrets = optional(list(object({
+      name  = string
+      value = string
+    })), [])
+  }))
+```
+
+Default: `[]`
+
+### <a name="input_domains"></a> [domains](#input\_domains)
+
+Description: Custom domains for the Azure Container App Environment.
+
+Type:
+
+```hcl
+list(object({
+    dns_suffix              = string
+    certificate_blob_base64 = string
+    certificate_password    = string
+  }))
+```
+
+Default: `[]`
+
 ### <a name="input_identity_type"></a> [identity\_type](#input\_identity\_type)
 
 Description: Type of identity to use for the Azure service plan.
@@ -137,6 +198,25 @@ Type: `bool`
 
 Default: `false`
 
+### <a name="input_share_storages"></a> [share\_storages](#input\_share\_storages)
+
+Description: Storage configurations for the Azure Container App Environment.
+
+Type:
+
+```hcl
+list(object({
+    name           = string
+    share_name     = string
+    access_mode    = optional(string, "ReadWrite")
+    account_name   = optional(string, "")
+    access_key     = optional(string, "")
+    nfs_server_url = optional(string, "")
+  }))
+```
+
+Default: `[]`
+
 ### <a name="input_tags"></a> [tags](#input\_tags)
 
 Description: A map of tags to assign to the resource.
@@ -180,13 +260,21 @@ Default: `false`
 
 ## Outputs
 
-No outputs.
+The following outputs are exported:
+
+### <a name="output_container_app_environment"></a> [container\_app\_environment](#output\_container\_app\_environment)
+
+Description: n/a
 
 ## Resources
 
 The following resources are used by this module:
 
 - [azurerm_container_app_environment.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app_environment) (resource)
+- [azurerm_container_app_environment_certificate.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app_environment_certificate) (resource)
+- [azurerm_container_app_environment_custom_domain.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app_environment_custom_domain) (resource)
+- [azurerm_container_app_environment_dapr_component.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app_environment_dapr_component) (resource)
+- [azurerm_container_app_environment_storage.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app_environment_storage) (resource)
 - [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) (data source)
 
 ## Usage

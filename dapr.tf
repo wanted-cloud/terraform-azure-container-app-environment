@@ -21,8 +21,8 @@ resource "azurerm_container_app_environment_dapr_component" "this" {
   dynamic "secrets" {
     for_each = each.value.secrets
     content {
-      name       = secrets.value.name
-      value      = secrets.value.value
+      name  = secrets.value.name
+      value = secrets.value.value
     }
   }
 

@@ -1,6 +1,6 @@
 resource "azurerm_container_app_environment_storage" "this" {
   for_each = { for storage in var.share_storages : storage["name"] => storage }
-  
+
   name                         = each.value.name
   container_app_environment_id = azurerm_container_app_environment.example.id
   access_mode                  = each.value.access_mode

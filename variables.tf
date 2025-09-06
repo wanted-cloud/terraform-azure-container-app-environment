@@ -93,15 +93,15 @@ variable "certificates" {
     certificate_pass = string
   }))
   default = []
-  
+
 }
 
 variable "domains" {
   description = "Custom domains for the Azure Container App Environment."
   type = list(object({
-    dns_suffix                   = string
-    certificate_blob_base64      = string
-    certificate_password         = string
+    dns_suffix              = string
+    certificate_blob_base64 = string
+    certificate_password    = string
   }))
   default = []
 }
@@ -109,11 +109,11 @@ variable "domains" {
 variable "share_storages" {
   description = "Storage configurations for the Azure Container App Environment."
   type = list(object({
-    name       = string
-    share_name = string
-    access_mode = optional(string, "ReadWrite")
-    account_name = optional(string, "")
-    access_key   = optional(string, "")
+    name           = string
+    share_name     = string
+    access_mode    = optional(string, "ReadWrite")
+    account_name   = optional(string, "")
+    access_key     = optional(string, "")
     nfs_server_url = optional(string, "")
   }))
   default = []
@@ -129,14 +129,14 @@ variable "dapr_components" {
     ignore_errors                = optional(bool, false)
     init_timeout                 = optional(string, "5s")
     scopes                       = optional(list(string), [])
-    metadata                    = optional(list(object({
+    metadata = optional(list(object({
       name        = string
       secret_name = optional(string, "")
       value       = optional(string, "")
     })), [])
     secrets = optional(list(object({
-      name       = string
-      value      = string
+      name  = string
+      value = string
     })), [])
   }))
   default = []
