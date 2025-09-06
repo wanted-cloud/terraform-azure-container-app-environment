@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
-# wanted-cloud/terraform-module-template
+# wanted-cloud/terraform-azure-container-app-environment
 
-This repository represents a template for a Terraform building block module as we think it should be done, so it's for sure opinionated but in our eyes simple and powerful. Feel free to use or contribute.
+Terraform building block managing Azure Container App Environment and its related resources.
 
 ## Table of contents
 
@@ -15,19 +15,93 @@ This repository represents a template for a Terraform building block module as w
 
 ## Requirements
 
-No requirements.
+The following requirements are needed by this module:
+
+- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.11)
+
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (>=4.20.0)
 
 ## Providers
 
-No providers.
+The following providers are used by this module:
+
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (>=4.20.0)
 
 ## Required Inputs
 
-No required inputs.
+The following input variables are required:
+
+### <a name="input_name"></a> [name](#input\_name)
+
+Description: Name of the Azure Container App Environment.
+
+Type: `string`
+
+### <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name)
+
+Description: Name of the resource group in which the Azure Container App Environment will be created.
+
+Type: `string`
 
 ## Optional Inputs
 
 The following input variables are optional (have default values):
+
+### <a name="input_identity_type"></a> [identity\_type](#input\_identity\_type)
+
+Description: Type of identity to use for the Azure service plan.
+
+Type: `string`
+
+Default: `""`
+
+### <a name="input_infrastructure_resource_group_name"></a> [infrastructure\_resource\_group\_name](#input\_infrastructure\_resource\_group\_name)
+
+Description: Name of the infrastructure resource group.
+
+Type: `string`
+
+Default: `""`
+
+### <a name="input_infrastructure_subnet_id"></a> [infrastructure\_subnet\_id](#input\_infrastructure\_subnet\_id)
+
+Description: ID of the infrastructure subnet.
+
+Type: `string`
+
+Default: `""`
+
+### <a name="input_internal_load_balancer_enabled"></a> [internal\_load\_balancer\_enabled](#input\_internal\_load\_balancer\_enabled)
+
+Description: Enable internal load balancer.
+
+Type: `bool`
+
+Default: `false`
+
+### <a name="input_location"></a> [location](#input\_location)
+
+Description: Location of the Azure Container App Environment.
+
+Type: `string`
+
+Default: `""`
+
+### <a name="input_log_analytics_workspace_id"></a> [log\_analytics\_workspace\_id](#input\_log\_analytics\_workspace\_id)
+
+Description: ID of the Log Analytics workspace.
+
+Type: `string`
+
+Default: `""`
+
+### <a name="input_logs_destination"></a> [logs\_destination](#input\_logs\_destination)
+
+Description: Logs destination for the Azure Container App Environment.
+
+Type: `string`
+
+Default: `"azure-monitor"`
 
 ### <a name="input_metadata"></a> [metadata](#input\_metadata)
 
@@ -55,13 +129,65 @@ object({
 
 Default: `{}`
 
+### <a name="input_mutual_tls_enabled"></a> [mutual\_tls\_enabled](#input\_mutual\_tls\_enabled)
+
+Description: Enable mutual TLS.
+
+Type: `bool`
+
+Default: `false`
+
+### <a name="input_tags"></a> [tags](#input\_tags)
+
+Description: A map of tags to assign to the resource.
+
+Type: `map(string)`
+
+Default: `{}`
+
+### <a name="input_user_assigned_identity_ids"></a> [user\_assigned\_identity\_ids](#input\_user\_assigned\_identity\_ids)
+
+Description: List of user assigned identity IDs for the Azure service plan.
+
+Type: `list(string)`
+
+Default: `[]`
+
+### <a name="input_workload_profiles"></a> [workload\_profiles](#input\_workload\_profiles)
+
+Description: Workload profiles for the Azure Container App Environment.
+
+Type:
+
+```hcl
+list(object({
+    name                  = string
+    workload_profile_type = string
+    min_instances         = number
+    max_instances         = number
+  }))
+```
+
+Default: `[]`
+
+### <a name="input_zone_redundancy_enabled"></a> [zone\_redundancy\_enabled](#input\_zone\_redundancy\_enabled)
+
+Description: Enable zone redundancy.
+
+Type: `bool`
+
+Default: `false`
+
 ## Outputs
 
 No outputs.
 
 ## Resources
 
-No resources.
+The following resources are used by this module:
+
+- [azurerm_container_app_environment.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app_environment) (resource)
+- [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) (data source)
 
 ## Usage
 
