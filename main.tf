@@ -20,13 +20,13 @@ resource "azurerm_container_app_environment" "this" {
 
   tags = var.tags
 
-  dynamic "identity" {
-    for_each = var.identity_type != "" ? [var.identity_type] : []
-    content {
-      type         = identity.value
-      identity_ids = var.user_assigned_identity_ids
-    }
+dynamic "identity" {
+  for_each = var.identity != null ? [var.identity] : []
+  content {
+    type         = identity.value.type
+    identity_ids = identity.value.identity_ids
   }
+}
 
   dynamic "workload_profile" {
     for_each = { for profile in var.workload_profiles : profile["name"] => profile }

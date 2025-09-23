@@ -62,16 +62,12 @@ variable "log_analytics_workspace_id" {
   default     = ""
 }
 
-variable "identity_type" {
-  description = "Type of identity to use for the Azure service plan."
-  type        = string
-  default     = ""
-}
-
-variable "user_assigned_identity_ids" {
-  description = "List of user assigned identity IDs for the Azure service plan."
-  type        = list(string)
-  default     = []
+variable "identity" {
+  type = object({
+    type         = string
+    identity_ids = optional(list(string), [])
+  })
+  default = null
 }
 
 variable "workload_profiles" {
@@ -79,8 +75,8 @@ variable "workload_profiles" {
   type = list(object({
     name                  = string
     workload_profile_type = string
-    min_instances         = number
-    max_instances         = number
+    minimum_count         = number
+    maximum_count         = number
   }))
   default = []
 }
@@ -140,4 +136,10 @@ variable "dapr_components" {
     })), [])
   }))
   default = []
+}
+
+variable "dapr_application_insights_connection_string" {
+  description = "Application Insights connection string used by Dapr."
+  type        = string
+  default     = ""
 }

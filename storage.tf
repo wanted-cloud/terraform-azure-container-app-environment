@@ -2,7 +2,7 @@ resource "azurerm_container_app_environment_storage" "this" {
   for_each = { for storage in var.share_storages : storage["name"] => storage }
 
   name                         = each.value.name
-  container_app_environment_id = azurerm_container_app_environment.example.id
+  container_app_environment_id = azurerm_container_app_environment.this.id
   access_mode                  = each.value.access_mode
   account_name                 = each.value.account_name
   share_name                   = each.value.share_name
