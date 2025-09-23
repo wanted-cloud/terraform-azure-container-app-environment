@@ -18,11 +18,11 @@ resource "azurerm_container_app_environment_dapr_component" "this" {
     }
   }
 
-  dynamic "secrets" {
+  dynamic "secret" {
     for_each = each.value.secrets
     content {
-      name  = secrets.value.name
-      value = secrets.value.value
+      name  = secret.value.name
+      value = secret.value.value
     }
   }
 
