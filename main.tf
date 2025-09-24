@@ -5,26 +5,26 @@
  */
 
 resource "azurerm_container_app_environment" "this" {
-  name                           = var.name
-  location                       = var.location != "" ? var.location : data.azurerm_resource_group.this.location
-  resource_group_name            = data.azurerm_resource_group.this.name
-  mutual_tls_enabled             = var.mutual_tls_enabled
-  zone_redundancy_enabled        = var.zone_redundancy_enabled
-  internal_load_balancer_enabled = var.internal_load_balancer_enabled
+  name                = var.name
+  location            = var.location != "" ? var.location : data.azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
+  mutual_tls_enabled  = var.mutual_tls_enabled
 
   infrastructure_subnet_id           = var.infrastructure_subnet_id != "" ? var.infrastructure_subnet_id : null
   infrastructure_resource_group_name = var.infrastructure_resource_group_name != "" ? var.infrastructure_resource_group_name : null
+  zone_redundancy_enabled            = var.infrastructure_subnet_id != "" && var.zone_redundancy_enabled ? true : null
+  internal_load_balancer_enabled     = var.infrastructure_subnet_id != "" && var.internal_load_balancer_enabled ? true : null
 
-  logs_destination           = var.logs_destination != "" ? var.logs_destination : null
-  log_analytics_workspace_id = var.log_analytics_workspace_id != "" ? var.log_analytics_workspace_id : null
+  dapr_application_insights_connection_string = var.dapr_application_insights_connection_string != "" ? var.dapr_application_insights_connection_string : null
+  log_analytics_workspace_id                  = var.log_analytics_workspace_id != "" ? var.log_analytics_workspace_id : null
 
-  tags = var.tags
+  tags = merge(local.metadata.tags, var.tags)
 
   dynamic "identity" {
-    for_each = var.identity_type != "" ? [var.identity_type] : []
+    for_each = var.identity != null ? [var.identity] : []
     content {
-      type         = identity.value
-      identity_ids = var.user_assigned_identity_ids
+      type         = identity.value.type
+      identity_ids = identity.value.identity_ids
     }
   }
 
@@ -33,8 +33,8 @@ resource "azurerm_container_app_environment" "this" {
     content {
       name                  = workload_profile.value.name
       workload_profile_type = workload_profile.value.workload_profile_type
-      minimum_count         = workload_profile.value.min_instances
-      maximum_count         = workload_profile.value.max_instances
+      minimum_count         = workload_profile.value.minimum_count
+      maximum_count         = workload_profile.value.maximum_count
     }
   }
 

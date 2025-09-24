@@ -2,12 +2,13 @@ resource "azurerm_container_app_environment_storage" "this" {
   for_each = { for storage in var.share_storages : storage["name"] => storage }
 
   name                         = each.value.name
-  container_app_environment_id = azurerm_container_app_environment.example.id
+  container_app_environment_id = azurerm_container_app_environment.this.id
   access_mode                  = each.value.access_mode
-  account_name                 = each.value.account_name
   share_name                   = each.value.share_name
-  access_key                   = each.value.access_key
-  nfs_server_url               = each.value.nfs_server_url != "" ? each.value.nfs_server_url : format("%s.file.core.windows.net", each.value.name)
+  
+  account_name = each.value.nfs_server_url == "" ? each.value.account_name : null
+  access_key   = each.value.nfs_server_url == "" ? each.value.access_key : null
+  nfs_server_url = each.value.nfs_server_url != "" ? each.value.nfs_server_url : null
 
   timeouts {
     create = try(
